@@ -1,17 +1,23 @@
 import React from "react";
 
-function Sort() {
-    const SORT_LIST = ['популярности', 'цене', 'алфавиту']
+function Sort({sortType, setSortType}) {
+    const SORT_LIST = [
+        {name: 'популярности (убывание)', sortProperty: 'rating'},
+        {name: 'популярности (возрастание)', sortProperty: '-rating'},
+        {name: 'цене (убывание)', sortProperty: 'price'},
+        {name: 'цене (возрастание)', sortProperty: '-price'},
+        {name: 'алфавиту (убывание)', sortProperty: 'title'},
+        {name: 'алфавиту (возрастание)', sortProperty: '-title'}
+    ]
 
     const [isVisiblePopup, setIsVisiblePopup] = React.useState(false);
-    const [activeIndexSort, setActiveIndexSort] = React.useState(0);
 
     const onClickPopup = () => {
         setIsVisiblePopup(prevState => !prevState);
     }
 
     const onClickSort = (indexSort) => {
-        setActiveIndexSort(indexSort);
+        setSortType(indexSort);
         setIsVisiblePopup(false);
     }
 
@@ -31,16 +37,16 @@ function Sort() {
                     />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={onClickPopup}>{SORT_LIST[activeIndexSort]}</span>
+                <span onClick={onClickPopup}>{sortType.name}</span>
             </div>
             {
                 isVisiblePopup ? (
                     <div className="sort__popup">
                         <ul>
                             {
-                                SORT_LIST.map((sortItem, index) => (
-                                    <li key={index} className={activeIndexSort === index ? 'active' : ''} onClick={() => onClickSort(index)}>
-                                        {sortItem}
+                                SORT_LIST.map((obj, index) => (
+                                    <li key={index} className={sortType.sortProperty === obj.sortProperty ? 'active' : ''} onClick={() => onClickSort(obj)}>
+                                        {obj.name}
                                     </li>
                                 ))
                             }
