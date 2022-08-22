@@ -1,0 +1,35 @@
+.root{
+  position: relative;
+}
+
+.icon{
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  opacity: .5;
+}
+
+.input{
+  padding: 10px 35px;
+  width: 350px;
+  border: 1px solid rgba(0, 0, 0, .3);
+  border-radius: 10px;
+  transition: all .5s;
+  font-size: 14px;
+
+  &:focus{
+    border: 1px solid rgba(0, 0, 0, .8);
+
+    &::placeholder{
+      color: #333;
+    }
+  }
+}
+
+.delete{
+  cursor: pointer;
+  position: absolute;
+  opacity: .5;
+  right: 8px;
+  top: 8px;
+}

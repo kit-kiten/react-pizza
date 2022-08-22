@@ -6,18 +6,28 @@ import Sort from "../components/Sort";
 import Skeleton from "../components/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
 
-function Home() {
+function Home({searchValue}) {
     const [items, setItems] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(true);
-
     const [activeIndexCategory, setActiveIndexCategory] = React.useState(0);
     const [sortType, setSortType] = React.useState({
         name: 'популярности (убывание)',
         sortProperty: 'rating'
     });
 
+    const skeletons = [...new Array(6)].map((_, index) => (
+        <Skeleton key={index}/>
+    ))
+    const pizzas = items.map(obj => (
+            <PizzaBlock
+                key={obj.id}
+                {...obj}
+            />
+        ))
+
+
     const onClickCategory = (indexCategory) => {
-        setActiveIndexCategory(indexCategory)
+        setActiveIndexCategory(indexCategory);
     }
 
     React.useEffect(() => {
@@ -27,13 +37,13 @@ function Home() {
 
         setIsLoading(true);
         axios.get(
-            `https://6301e0a3c6dda4f287ae88c3.mockapi.io/items?${category}&sortBy=${sort}&order=${order}`)
+            `https://6301e0a3c6dda4f287ae88c3.mockapi.io/items?${category}&sortBy=${sort}&order=${order}&search=${searchValue}`)
             .then(response => {
                 setItems(response.data);
                 setIsLoading(false);
             })
         window.scrollTo(0, 0);
-    }, [activeIndexCategory, sortType])
+    }, [activeIndexCategory, sortType, searchValue])
 
     return (
         <div className="container">
@@ -50,20 +60,7 @@ function Home() {
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
                 {
-                    isLoading ?
-                        (
-                            [...new Array(6)].map((_, index) => (
-                                <Skeleton key={index}/>
-                            ))
-                        ) :
-                        (
-                            items.map(obj => (
-                                <PizzaBlock
-                                    key={obj.id}
-                                    {...obj}
-                                />
-                            ))
-                        )
+                    isLoading ? skeletons : pizzas
                 }
             </div>
         </div>
