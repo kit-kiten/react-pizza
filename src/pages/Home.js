@@ -15,10 +15,11 @@ function Home() {
             setItems(response.data);
             setIsLoading(false);
         })
+        window.scrollTo(0, 0);
     }, [])
 
     return (
-        <>
+        <div className="container">
             <div className="content__top">
                 <Categories />
                 <Sort />
@@ -42,7 +43,7 @@ function Home() {
                         )
                 }
             </div>
-        </>
+        </div>
     )
 }
 

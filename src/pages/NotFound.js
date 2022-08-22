@@ -3,7 +3,9 @@ import NotFoundBlock from "../components/NotFoundBlock";
 
 function NotFound() {
     return (
-        <NotFoundBlock />
+        <div className="container">
+            <NotFoundBlock />
+        </div>
     )
 }
 
