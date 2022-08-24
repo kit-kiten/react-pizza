@@ -6,8 +6,9 @@ import Sort from "../components/Sort";
 import Skeleton from "../components/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
 import Pagination from "../components/Pagination";
+import {SearchContext} from "../App";
 
-function Home({searchValue}) {
+function Home() {
     const [items, setItems] = React.useState([]);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -16,6 +17,8 @@ function Home({searchValue}) {
         name: 'популярности (убывание)',
         sortProperty: 'rating'
     });
+
+    const {searchValue} = React.useContext(SearchContext);
 
     const skeletons = [...new Array(6)].map((_, index) => (
         <Skeleton key={index}/>
