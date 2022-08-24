@@ -5,9 +5,11 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import Skeleton from "../components/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
+import Pagination from "../components/Pagination";
 
 function Home({searchValue}) {
     const [items, setItems] = React.useState([]);
+    const [currentPage, setCurrentPage] = React.useState(1);
     const [isLoading, setIsLoading] = React.useState(true);
     const [activeIndexCategory, setActiveIndexCategory] = React.useState(0);
     const [sortType, setSortType] = React.useState({
@@ -25,7 +27,6 @@ function Home({searchValue}) {
             />
         ))
 
-
     const onClickCategory = (indexCategory) => {
         setActiveIndexCategory(indexCategory);
     }
@@ -37,13 +38,13 @@ function Home({searchValue}) {
 
         setIsLoading(true);
         axios.get(
-            `https://6301e0a3c6dda4f287ae88c3.mockapi.io/items?${category}&sortBy=${sort}&order=${order}&search=${searchValue}`)
+            `https://6301e0a3c6dda4f287ae88c3.mockapi.io/items?page=${currentPage}&limit=4${category}&sortBy=${sort}&order=${order}&search=${searchValue}`)
             .then(response => {
                 setItems(response.data);
                 setIsLoading(false);
             })
         window.scrollTo(0, 0);
-    }, [activeIndexCategory, sortType, searchValue])
+    }, [activeIndexCategory, sortType, searchValue, currentPage])
 
     return (
         <div className="container">
@@ -63,6 +64,7 @@ function Home({searchValue}) {
                     isLoading ? skeletons : pizzas
                 }
             </div>
+            <Pagination onChangePage={(number) => setCurrentPage(number + 1)}/>
         </div>
     )
 }
